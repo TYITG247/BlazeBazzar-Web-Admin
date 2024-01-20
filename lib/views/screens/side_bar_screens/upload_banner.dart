@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 
 class UploadBannerScreen extends StatefulWidget {
@@ -10,9 +13,12 @@ class UploadBannerScreen extends StatefulWidget {
 }
 
 class _UploadBannerScreenState extends State<UploadBannerScreen> {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   dynamic _image;
   String? fileName;
+
   pickImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
@@ -22,6 +28,31 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
       setState(() {
         _image = result.files.first.bytes;
         fileName = result.files.first.name;
+      });
+    }
+  }
+
+  _uploadBannerToStorage(dynamic image) async {
+    Reference ref = _storage.ref().child('Banners').child(fileName!);
+    UploadTask uploadTask = ref.putData(image);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  _uploadToFirestore() async {
+    EasyLoading.show();
+    if (_image != null) {
+      String imageUrl = await _uploadBannerToStorage(_image);
+      await _firestore.collection('banners').doc(fileName).set(
+        {
+          'image': imageUrl,
+        },
+      ).whenComplete(() {
+        EasyLoading.dismiss();
+        setState(() {
+          _image = null;
+        });
       });
     }
   }
@@ -80,7 +111,9 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
               ),
               Gap(15),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _uploadToFirestore();
+                },
                 child: Text("Save"),
               ),
             ],
