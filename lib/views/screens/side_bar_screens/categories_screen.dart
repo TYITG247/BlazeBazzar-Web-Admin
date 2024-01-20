@@ -1,3 +1,4 @@
+import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/widgets/category_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -44,7 +45,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   uploadCategory() async {
     EasyLoading.show();
-    if(_formKey.currentState!.validate()){
+    if (_formKey.currentState!.validate()) {
       String imageUrl = await _uploadCategoryImageToStorage(_image);
       await _firestore.collection("categories").doc(fileName).set({
         "image": imageUrl,
@@ -53,6 +54,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         EasyLoading.dismiss();
         setState(() {
           _image = null;
+          _formKey.currentState!.reset();
         });
       });
     } else {
@@ -97,12 +99,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         ),
                         child: _image != null
                             ? Image.memory(
-                          _image,
-                          fit: BoxFit.cover,
-                        )
+                                _image,
+                                fit: BoxFit.cover,
+                              )
                             : Center(
-                          child: Text("Image"),
-                        ),
+                                child: Text("Image"),
+                              ),
                       ),
                       Gap(20),
                       ElevatedButton(
@@ -118,11 +120,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   child: SizedBox(
                     width: 165,
                     child: TextFormField(
-                      onChanged: (value){
+                      onChanged: (value) {
                         categoryName = value;
                       },
-                      validator: (value){
-                        if(value!.isEmpty){
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return "Category name cannot be empty";
                         } else {
                           return null;
@@ -142,7 +144,27 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   child: Text("Upload"),
                 ),
               ],
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Categories",
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            CategoryWidget(),
           ],
         ),
       ),
