@@ -62,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return AdminScaffold(
       appBar: AppBar(
-        backgroundColor: Colors.tealAccent,
+        backgroundColor: Color.fromRGBO(33, 158, 188, 10),
         title: Text("Admin Panel"),
       ),
       sideBar: SideBar(
@@ -110,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
         header: Container(
           height: 50,
           width: double.infinity,
-          color: const Color(0xff444444),
+          color: const Color.fromRGBO(2, 48, 71, 10),
           child: const Center(
             child: Text(
               'BlazeBazzar',
@@ -123,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
         footer: Container(
           height: 50,
           width: double.infinity,
-          color: const Color(0xff444444),
+          color: const Color.fromRGBO(2, 48, 71, 10),
           child: const Center(
             child: Text(
               '❤️',
