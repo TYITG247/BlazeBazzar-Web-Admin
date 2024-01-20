@@ -66,7 +66,7 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.all(10),
             child: const Text(
-              'Upload Banner Screen',
+              'Upload Banner',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 36,
@@ -96,7 +96,7 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
                               fit: BoxFit.cover,
                             )
                           : Center(
-                              child: Text("Upload Banner"),
+                              child: Text("Image"),
                             ),
                     ),
                     Gap(20),
@@ -104,7 +104,7 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
                       onPressed: () {
                         pickImage();
                       },
-                      child: Text("Upload Image"),
+                      child: Text("Select Image"),
                     ),
                   ],
                 ),
@@ -114,7 +114,7 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
                 onPressed: () {
                   _uploadToFirestore();
                 },
-                child: Text("Save"),
+                child: Text("Upload"),
               ),
             ],
           )
