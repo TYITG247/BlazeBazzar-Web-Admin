@@ -1,59 +1,105 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class SellerWidget extends StatelessWidget {
+class SellerWidget extends StatefulWidget {
   const SellerWidget({super.key});
+
+  @override
+  State<SellerWidget> createState() => _SellerWidgetState();
+}
+
+class _SellerWidgetState extends State<SellerWidget> {
+  final Stream<QuerySnapshot> _sellersStream =
+      FirebaseFirestore.instance.collection('sellers').snapshots();
 
   Widget sellerData(int? flex, Widget widget) {
     return Expanded(
       flex: flex!,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8, bottom: 8),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+            ),
           ),
+          child: widget,
         ),
-        child: widget,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          sellerData(
-            2,
-            Text("Demo Store"),
-          ),
-          sellerData(
-            2,
-            Text("City"),
-          ),
-          sellerData(
-            2,
-            Text("State"),
-          ),
-          sellerData(
-            1,
-            ElevatedButton(
-              onPressed: () {},
-              child: Center(
-                child: Text("Reject"),
-              ),
-            ),
-          ),
-          sellerData(
-            1,
-            ElevatedButton(
-              onPressed: () {},
-              child: Center(
-                child: Text("View More"),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _sellersStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              final sellerUserData = snapshot.data!.docs[index];
+              return Container(
+                child: Row(
+                  children: [
+                    sellerData(
+                      2,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(sellerUserData['businessName']),
+                      ),
+                    ),
+                    sellerData(
+                      2,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(sellerUserData['cityValue']),
+                      ),
+                    ),
+                    sellerData(
+                      2,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(sellerUserData['stateValue']),
+                      ),
+                    ),
+                    sellerData(
+                      1,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Center(
+                            child: Text("Reject"),
+                          ),
+                        ),
+                      ),
+                    ),
+                    sellerData(
+                      1,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Center(
+                            child: Text("View More"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            });
+      },
     );
   }
 }
