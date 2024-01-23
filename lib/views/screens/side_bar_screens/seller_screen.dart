@@ -1,3 +1,4 @@
+import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/widgets/seller_widget.dart';
 import 'package:flutter/material.dart';
 
 class SellerScreen extends StatelessWidget {
@@ -44,14 +45,14 @@ class SellerScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              _rowHeader("Logo", 1),
-              _rowHeader("Business", 3),
+              _rowHeader("Business Name", 2),
               _rowHeader("City", 2),
               _rowHeader("State", 2),
               _rowHeader("Action", 1),
               _rowHeader("View more", 1),
             ],
           ),
+          SellerWidget(),
         ],
       ),
     );
