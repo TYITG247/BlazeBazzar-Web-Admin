@@ -12,6 +12,8 @@ class _SellerWidgetState extends State<SellerWidget> {
   final Stream<QuerySnapshot> _sellersStream =
       FirebaseFirestore.instance.collection('sellers').snapshots();
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Widget sellerData(int? flex, Widget widget) {
     return Expanded(
       flex: flex!,
@@ -75,12 +77,33 @@ class _SellerWidgetState extends State<SellerWidget> {
                       1,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text("Reject"),
-                          ),
-                        ),
+                        child: sellerUserData['approved'] == false
+                            ? ElevatedButton(
+                                onPressed: () async {
+                                  await _firestore
+                                      .collection('sellers')
+                                      .doc(sellerUserData['sellerId'])
+                                      .update({
+                                    'approved': true,
+                                  });
+                                },
+                                child: Center(
+                                  child: Text("Approve"),
+                                ),
+                              )
+                            : ElevatedButton(
+                                onPressed: () async {
+                                  await _firestore
+                                      .collection('sellers')
+                                      .doc(sellerUserData['sellerId'])
+                                      .update({
+                                    'approved': false,
+                                  });
+                                },
+                                child: Center(
+                                  child: Text("Reject"),
+                                ),
+                              ),
                       ),
                     ),
                     sellerData(
