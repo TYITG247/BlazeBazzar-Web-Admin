@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:blazebazzar_web_admin/views/screens/main_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

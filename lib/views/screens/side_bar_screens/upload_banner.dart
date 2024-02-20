@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:uuid/uuid.dart';
 import 'package:gap/gap.dart';
 
 class UploadBannerScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _UploadBannerScreenState extends State<UploadBannerScreen> {
     EasyLoading.show();
     if (_image != null) {
       String imageUrl = await _uploadBannerToStorage(_image);
-      await _firestore.collection('banners').doc(fileName).set(
+      await _firestore.collection('banners').doc(Uuid().v1()).set(
         {
           'image': imageUrl,
         },

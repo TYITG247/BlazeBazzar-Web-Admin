@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
+import 'package:uuid/uuid.dart';
 
 class CategoriesScreen extends StatefulWidget {
   static const String routeName = "\CategoriesScreen";
@@ -47,7 +48,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     EasyLoading.show();
     if (_formKey.currentState!.validate()) {
       String imageUrl = await _uploadCategoryImageToStorage(_image);
-      await _firestore.collection("categories").doc(fileName).set({
+      await _firestore.collection("categories").doc(Uuid().v1()).set({
         "image": imageUrl,
         "categoryName": categoryName,
       }).whenComplete(() {
