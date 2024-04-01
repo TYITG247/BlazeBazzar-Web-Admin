@@ -4,7 +4,6 @@ import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/order_scree
 import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/product_screen.dart';
 import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/seller_screen.dart';
 import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/upload_banner.dart';
-import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/withdrawal_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
@@ -28,11 +27,6 @@ class _MainScreenState extends State<MainScreen> {
       case SellerScreen.routeName:
         setState(() {
           _selectedItem = SellerScreen();
-        });
-        break;
-      case WithdrawalScreen.routeName:
-        setState(() {
-          _selectedItem = WithdrawalScreen();
         });
         break;
       case OrderScreen.routeName:
@@ -76,11 +70,6 @@ class _MainScreenState extends State<MainScreen> {
             title: 'Sellers',
             icon: CupertinoIcons.person_3_fill,
             route: SellerScreen.routeName,
-          ),
-          AdminMenuItem(
-            title: 'Withdrawal',
-            icon: CupertinoIcons.money_dollar,
-            route: WithdrawalScreen.routeName,
           ),
           AdminMenuItem(
             title: 'Orders',

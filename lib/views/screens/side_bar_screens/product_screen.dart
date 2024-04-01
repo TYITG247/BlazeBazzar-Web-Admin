@@ -1,3 +1,4 @@
+import 'package:blazebazzar_web_admin/views/screens/side_bar_screens/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -52,6 +53,7 @@ class ProductScreen extends StatelessWidget {
               _rowHeader("View more", 1),
             ],
           ),
+          ProductWidget(),
         ],
       ),
     );
